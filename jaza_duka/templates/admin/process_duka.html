@@ -1,0 +1,15 @@
+
+{% extends "admin/custom_admin_base.html" %}
+
+{% load i18n %}
+
+
+{% block content %}
+{{ block.super }}
+
+<h1>Duka stores being uploaded, email will be sent upon completion</h1>
+
+ <a href="{% url 'admin:payments_outlet_changelist' %}"><button type="submit">Outlet list</button>
+    </a>
+
+{% endblock %}

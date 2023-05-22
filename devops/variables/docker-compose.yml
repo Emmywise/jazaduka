@@ -1,0 +1,4 @@
+version: '3'
+services:
+  one:
+    image: "kashaglobal/jazaduka:${SERVICE_ONE_TAG:-latest}"

@@ -1,0 +1,18 @@
+{% extends "admin/custom_admin_base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+<div class="custom_form_div">
+    <h1>Preview</h1>
+
+    <h2 class="c_h2">You are about to {{context.process}} {{ context.currency }} {{ context.amount}} for order number {{context.order_id }} </h2>
+        <form method="POST">
+        {% csrf_token %}
+        <input type=button class="button custom_button" value="Back" onClick="javascript:history.go(-1);">
+        <button type="submit" class="button custom_button">Confirm</button>
+        </form>
+</div>
+
+{% endblock %}

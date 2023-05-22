@@ -1,0 +1,63 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: jaza_duka_local_django
+    container_name: local_jaza_duka_django
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app:z
+    environment:
+      - USE_S3
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - 8000:8000
+      - 3000:3000
+    command: /start
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: jaza_duka_production_postgres
+    container_name: local_jaza_duka_postgres
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data:Z
+      - local_postgres_data_backups:/backups:z
+    env_file:
+      - ./.envs/.local/.postgres
+
+
+  redis:
+    image: redis:5.0
+    container_name: local_jaza_duka_redis
+
+  celeryworker:
+    <<: *django
+    image: jaza_duka_local_celeryworker
+    container_name: local_jaza_duka_celeryworker
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: local_jaza_duka_celerybeat
+    container_name: celerybeat
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celerybeat

@@ -1,0 +1,22 @@
+{% extends "admin/custom_admin_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<div class='custom_form_div'>
+<h1> Reload payment details</h1>
+
+<form method="post">
+    {% csrf_token %}
+   {{form | crispy }}
+    <input class="custom_button" type="submit" value="Submit">
+</form>
+
+{% if message %}
+<h1 class="c_red"> {{message}} </h1>
+{% endif %}
+
+</div>
+
+{% endblock %}

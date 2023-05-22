@@ -1,0 +1,27 @@
+{% extends "admin/custom_admin_base.html" %}
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+
+
+{% block content %}
+{{ block.super }}
+
+<style>
+
+</style>
+
+
+<div class="custom_form_div">
+  <h1>Get pre auth</h1>
+
+  <form method="post" class="my-custom-form">
+    {% csrf_token %}
+    {{form | crispy}}
+    <button type="submit" class="button custom_button">Get pre auth</button>
+  </form>
+    <input type=button class="button custom_button" value="Back" onClick="javascript:history.go(-1);">
+
+</div>
+
+{% endblock %}

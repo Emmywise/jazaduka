@@ -1,0 +1,24 @@
+.my-custom-form input{
+ margin-bottom: 20px;
+}
+.custom_button{
+  height: 30px !important;
+  width: 100px !important;
+  margin-top: 20px !important;
+}
+.custom_form_div{
+  line-height: 2em;
+  font-size: 17px;
+  margin-left: 30px;
+}
+
+.c_h2{
+  font-size: 20px;
+}
+
+.c_red{
+  color: red;
+  margin-top: 20px;
+  font-weight: 500;
+  font-style: bold;
+}

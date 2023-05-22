@@ -1,0 +1,97 @@
+version: '3'
+
+volumes:
+  production_postgres_data: {}
+  production_postgres_data_backups: {}
+  media_volume: {}
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    image: "kashaglobal/jazaduka:${TAG}"
+    volumes:
+      - media_volume:/app/jaza_duka/media
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    depends_on:
+      - postgres
+      - redis
+    expose:
+      - 5000
+    command: /start
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: eu-central-1
+        awslogs-group: jazaduka.log
+        awslogs-stream: jazaduka_docker_logs
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: jaza_duka_production_postgres
+    volumes:
+      - production_postgres_data:/var/lib/postgresql/data:Z
+      - production_postgres_data_backups:/backups:z
+    env_file:
+      - ./.envs/.production/.postgres
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./compose/production/nginx/Dockerfile
+    image: "kashaglobal/jazaduka:nginx"
+    restart: unless-stopped
+    ports:
+      - "70:80"
+    depends_on:
+      - django
+
+  redis:
+    image: redis:5.0
+
+  celeryworker:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    image: "kashaglobal/jazaduka:${TAG}"
+    volumes:
+      - media_volume:/app/jaza_duka/media
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    depends_on:
+      - postgres
+      - redis
+    command: /start-celeryworker
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: eu-central-1
+        awslogs-group: jazaduka.log
+        awslogs-stream: jazaduka_docker_logs
+
+  celerybeat:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    image: "kashaglobal/jazaduka:${TAG}"
+    volumes:
+      - media_volume:/app/jaza_duka/media
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    depends_on:
+      - postgres
+      - redis
+    command: /start-celerybeat
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: eu-central-1
+        awslogs-group: jazaduka.log
+        awslogs-stream: jazaduka_docker_logs

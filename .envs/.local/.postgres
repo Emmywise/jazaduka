@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=jaza_duka
+POSTGRES_USER=QktnlVSvXDXLIheBnCXRGnotcgtMlowG
+POSTGRES_PASSWORD=L5GKQO7TEd48JI6JVaCZcZ1sIyWUPiBLAYGLF57lNYbczCAffRnpfIZKL680wTfj

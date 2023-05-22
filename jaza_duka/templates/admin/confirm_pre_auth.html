@@ -1,0 +1,21 @@
+{% extends "admin/custom_admin_base.html" %}
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+
+{% block content %}
+
+<div class="custom_form_div">
+    <h1>Confirmation Page</h1>
+
+    <h2 class="c_h2">You are about to request {{ payment_context.get_currency_display }}{{ payment_context.amount_auth}} for order number {{payment_context.order_id }} </h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{form | crispy }}
+        <p> <b>Note</b>: Enter amount if different from authorization amount</p>
+        <input type=button class="button custom_button" value="Back" onClick="javascript:history.go(-1);">
+        <button type="submit" class="button custom_button">Confirm</button>
+    </form>
+</div>
+
+{% endblock %}

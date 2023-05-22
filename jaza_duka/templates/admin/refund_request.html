@@ -1,0 +1,30 @@
+{% extends "admin/custom_admin_base.html" %}
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+
+
+{% block content %}
+{{ block.super }}
+
+<style>
+.my-custom-form input {
+  margin-bottom : 0px !important;
+}
+</style>
+
+
+<div class="custom_form_div">
+  <h1>Request Refund</h1>
+
+  <form method="post" class="my-custom-form">
+    {% csrf_token %}
+    {{form | crispy}}
+      <p> <b>Note</b>: Enter amount if different from authorization amount</p>
+        <input type=button class=" custom_button" value="Back" onClick="javascript:history.go(-1);">
+        <button type="submit" class="button custom_button">Confirm</button>
+  </form>
+
+</div>
+
+{% endblock %}

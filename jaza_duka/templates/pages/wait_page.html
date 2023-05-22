@@ -1,0 +1,66 @@
+{% extends "admin/custom_admin_base.html" %}
+
+{% block content %}
+<style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        /* Light grey */
+        border-top: 16px solid #3498db;
+        /* Blue */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    #myForm {
+        display: none;
+    }
+</style>
+
+<div class='content'>
+    <h1>Please wait, while we process your request</h1>
+    <div class="loader"></div>
+    <form action="" method="post" id="myForm">
+        {% csrf_token %}
+        <input type="text">
+    </form>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        function poll() {
+            var url = "{% url 'admin:processing_status' id process %}"
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    if (data['flag'] == true) {
+                        document.getElementById('myForm').submit();
+                    }
+                },
+                dataType: "json",
+
+            });
+        }
+
+        setInterval(function () { poll(); }, 7000);
+    });
+
+</script>
+
+{% endblock %}

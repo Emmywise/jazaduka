@@ -1,0 +1,36 @@
+# General
+# ------------------------------------------------------------------------------
+USE_DOCKER=yes
+IPYTHONDIR=/app/.ipython
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
+# Celery
+# ------------------------------------------------------------------------------
+
+# Flower
+CELERY_FLOWER_USER=DoUQZSJduwdIoirTYZULSBQhUBFvnRgr
+CELERY_FLOWER_PASSWORD=YOsoGU3QCnNeODoFGmthzjMGqjtgLqZ4kyu93Cfe21a1C9tcCjyljvuoQSxw1HO3
+
+
+# Jaza Duka Api
+# ------------------------------------------------------------------------------
+IS_STAGE=True
+
+DUKA_URL=https://credit.correlaction.com/api/order/batch
+DISTRIBUTOR_ID=20000001
+DUKA_HTTP_AUTH_USER=
+DUKA_HTTP_AUTH_PASS=
+
+
+STAGE_DUKA_URL=https://credituat.correlaction.com/api/order/batch
+STAGE_DISTRIBUTOR_ID=K001
+STAGE_DUKA_HTTP_AUTH_USER=kasha_user
+STAGE_DUKA_HTTP_AUTH_PASS=gY64HR,8g(!%S}[-
+
+
+
+# TAG [staging/prod]
+# ------------------------------------------------------------------------------
+TAG=prod

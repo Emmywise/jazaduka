@@ -1,0 +1,42 @@
+# used to setup and update the deployment of this project
+---
+- hosts: "prod"
+  name: update the jazaduka service
+  gather_facts: no
+  become: false
+  vars:
+    home_dir: /home/robot
+    project_dir: "/var/www/jazaduka"
+  pre_tasks:
+    - name: create the server authentication key
+      copy:
+        src: variables/access_key.pem
+        dest: .ssh/kasha-sms.pem
+        mode: '0600'
+      delegate_to: localhost
+  tasks:
+    - name: copy over the production.yml file
+      copy:
+        src: "{{ playbook_dir }}/../production.yml"
+        dest: "{{ project_dir }}"
+    - name: update the TAG in the .env file
+      lineinfile:
+        path: "{{ project_dir }}/.env"
+        regexp: '^TAG='
+        line: "TAG={{version}}"
+    - name: pull docker images
+      shell: "docker pull kashaglobal/jazaduka:{{version}}"
+    - name: stop running service
+      shell: "docker-compose -f production.yml stop"
+      args:
+        chdir: "{{ project_dir }}"
+      environment:
+        - TAG: "{{version}}"
+    - name: start a new container
+      shell: "docker-compose -f production.yml up -d"
+      args:
+        chdir: "{{ project_dir }}"
+      environment:
+        - TAG: "{{version}}"
+    - name: prune old resources
+      shell: "nohup docker system prune -fa > /dev/null 2>&1 &"

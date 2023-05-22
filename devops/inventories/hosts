@@ -1,0 +1,4 @@
+[staging]
+staging-1 ansible_host=3.72.248.120 ansible_python_interpreter=/usr/bin/python3 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+[prod]
+prod-1 ansible_host=52.59.90.163 ansible_python_interpreter=/usr/bin/python3 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'

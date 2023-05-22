@@ -1,0 +1,15 @@
+{% extends 'admin/change_list.html' %}
+
+{% block object-tools %}
+<div>
+    <a href="{% url "admin:pre_auth_view" %}"><button type="submit">Create Pre Auth</button>
+    </a>
+    <a href="{% url "admin:refund_view" %}"><button type="submit">Create Refund</button>
+    </a>
+    <a href="{% url "reload-payment" %}"><button type="submit">Refresh Payment</button>
+    </a>
+
+</div>
+<br />
+{{ block.super }}
+{% endblock %}
